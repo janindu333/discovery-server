@@ -23,6 +23,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
+          distribution: 'temurin' # Specify the distribution (e.g., 'temurin', 'zulu', 'adopt')
 
       # Step 3: Cache Maven dependencies
       - name: Cache Maven dependencies
@@ -61,4 +62,3 @@ jobs:
           docker tag janindu333/discovery-server:${{ github.sha }} janindu333/discovery-server:latest
           docker push janindu333/discovery-server:${{ github.sha }}
           docker push janindu333/discovery-server:latest
-
