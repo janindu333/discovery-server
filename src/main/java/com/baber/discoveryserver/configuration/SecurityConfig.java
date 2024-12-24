@@ -32,15 +32,13 @@ public class SecurityConfig {
       //  UserDetails user = User.withUsername("user").password(passwordEncoder.encode("ff")).roles("USER").build();
         return new InMemoryUserDetailsManager(admin);
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+        return http.cors().and().csrf().disable()
 
                 .authorizeHttpRequests().anyRequest()
                 .authenticated().and().httpBasic().and().build();
