@@ -26,6 +26,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails admin = User.withUsername(username).password(passwordEncoder.encode(password)).roles("ADMIN").build();
       //  UserDetails user = User.withUsername("user").password(passwordEncoder.encode("ff")).roles("USER").build();
+        System.out.println("");
         return new InMemoryUserDetailsManager(admin);
     }
     @Bean
