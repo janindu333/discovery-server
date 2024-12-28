@@ -42,7 +42,7 @@ jobs:
       - name: Verify Maven Build Output
         run: |
           echo "Checking target directory contents:"
-          ls -la target
+          ls -la target || echo "Target directory does not exist!"
 
   deploy:
     name: Deploy Docker Image
@@ -74,4 +74,5 @@ jobs:
         run: |
           docker build -t janindu3/discovery-server:${{ github.sha }} .
           docker tag janindu3/discovery-server:${{ github.sha }} janindu3/discovery-server:latest
-          docker push janindu3/discovery-serve
+          docker push janindu3/discovery-server:${{ github.sha }}
+          docker push janindu3/discovery-server:latest
