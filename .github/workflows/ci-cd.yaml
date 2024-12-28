@@ -36,7 +36,7 @@ jobs:
 
       # Step 4: Build the JAR
       - name: Build with Maven
-        run: mvn clean package -DskipTests=false
+        run: mvn clean install
 
   deploy:
     name: Deploy Docker Image
