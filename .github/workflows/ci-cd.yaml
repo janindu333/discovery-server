@@ -59,6 +59,6 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build -t janindu3/discovery-server:${{ github.sha }} .
-          docker tag janindu3/discovery-server:${{ github.sha }} janindu333/discovery-server:latest
+          docker tag janindu3/discovery-server:${{ github.sha }} janindu3/discovery-server:latest
           docker push janindu3/discovery-server:${{ github.sha }}
           docker push janindu3/discovery-server:latest
