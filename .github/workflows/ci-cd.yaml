@@ -34,9 +34,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # Step 4: Build the JAR with Maven
+      # Step 4: Build the JAR
       - name: Build with Maven
-        run: mvn clean install -X # Debug mode enabled for Maven build
+        run: mvn clean install -X
 
       # Step 5: Verify Maven Build Output
       - name: Verify Maven Build Output
@@ -74,5 +74,4 @@ jobs:
         run: |
           docker build -t janindu3/discovery-server:${{ github.sha }} .
           docker tag janindu3/discovery-server:${{ github.sha }} janindu3/discovery-server:latest
-          docker push janindu3/discovery-server:${{ github.sha }}
-          docker push janindu3/discovery-server:latest
+          docker push janindu3/discovery-serve
