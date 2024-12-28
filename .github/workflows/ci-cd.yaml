@@ -41,7 +41,7 @@ jobs:
       # Step 5: Verify Maven Build Output
       - name: Verify Maven Build Output
         run: |
-          echo "Checking target directory contents:"
+          echo "Checking target directory contents after Maven build:"
           ls -la target || echo "Target directory does not exist!"
 
   deploy:
