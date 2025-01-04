@@ -73,6 +73,5 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           echo "Build context contents:"
-          ls -la
-          echo "Target directory contents:"
-          ls -la target || echo "Target directory does not exist!"
+          tar -cf context.tar .
+          tar -tf context.tar
