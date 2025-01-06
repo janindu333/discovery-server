@@ -50,7 +50,7 @@ jobs:
           path: target/
 
   deploy:
-    name: Deploy Docker Image and Kubernetes
+    name: Deploy Docker Image
     runs-on: ubuntu-latest
     needs: build
 
@@ -93,20 +93,3 @@ jobs:
           docker tag janindu3/discovery-server:${{ github.sha }} janindu3/discovery-server:latest
           docker push janindu3/discovery-server:${{ github.sha }}
           docker push janindu3/discovery-server:latest
-
-      # Step 8: Set up kubectl (Install kubectl CLI)
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
-
-      # Step 9: Configure kubeconfig
-      - name: Configure kubeconfig
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
-          chmod 600 ~/.kube/config
-
-      # Step 10: Apply Kubernetes Configuration
-      - name: Apply Kubernetes Configuration
-        run: kubectl apply -f deployment.yaml
