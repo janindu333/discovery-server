@@ -34,6 +34,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -X
 
+      - name: Verify target directory
+        run: ls -la target
+
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -54,7 +57,7 @@ jobs:
         with:
           name: target
 
-      - name: List downloaded files
+      - name: Verify downloaded files
         run: ls -la target
 
       - name: Prepare build context
