@@ -69,10 +69,11 @@ jobs:
       - name: Inspect downloaded artifact structure
         run: ls -R || echo "No files downloaded!"
 
-      # Step 4: Move target directory to correct location
-      - name: Move target directory
+      # Step 4: Move JAR file to target directory
+      - name: Move JAR file to target directory
         run: |
-          mv target/* ./target/ || echo "No target files to move"
+          mkdir -p target
+          mv discovery-server-0.0.1-SNAPSHOT.jar target/ || echo "No JAR file to move"
 
       # Step 5: Verify target directory after moving
       - name: Verify target directory after move
