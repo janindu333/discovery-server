@@ -14,18 +14,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up JDK
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Step 3: Cache Maven dependencies
       - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
@@ -34,15 +31,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # Step 4: Build the JAR
       - name: Build with Maven
         run: mvn clean install -X
 
-      # Step 5: Verify Maven Build Output
-      - name: Verify Maven Build Output
-        run: |
-          echo "Checking target directory contents after Maven build:"
-          ls -la target || echo "Target directory does not exist!"
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: target
+          path: target/
 
   deploy:
     name: Deploy Docker Image
@@ -50,26 +46,20 @@ jobs:
     needs: build
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Debug Build Context
-      - name: Debug Build Context
-        run: |
-          echo "Build context contents:"
-          ls -la
-          echo "Target directory contents:"
-          ls -la target || echo "Target directory does not exist!"
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: target
 
-      # Step 3: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 4: Build and Push Docker Image
       - name: Build and Push Docker Image
         run: |
           docker build -t janindu3/discovery-server:${{ github.sha }} .
