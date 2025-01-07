@@ -95,20 +95,20 @@ jobs:
           docker push janindu3/discovery-server:latest
 
       - name: Set up kubectl
-          uses: azure/setup-kubectl@v3
-          with:
-            version: 'latest'
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
 
-            - name: Configure kubeconfig
-              run: |
-                mkdir -p ~/.kube
-                echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
-
-            - name: Deploy to Kubernetes
-              run: |
-                kubectl apply -f k8s/deployment.yaml
-
-            - name: Verify Deployment
-              run: |
-                kubectl get pods
-                kubectl get services
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+          
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f k8s/deployment.yaml
+          
+      - name: Verify Deployment
+        run: |
+          kubectl get pods
+          kubectl get services
