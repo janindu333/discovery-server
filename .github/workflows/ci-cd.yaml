@@ -102,8 +102,18 @@ jobs:
       - name: Configure kubectl
         run: |
           mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+          echo "${{ secrets.KUBECONFIG }}" | tr -d '\r' | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
+          
+      # Add this debug step
+      - name: Verify kubeconfig
+        run: |
+          if [ -f $HOME/.kube/config ]; then
+            echo "Kubeconfig exists"
+            cat $HOME/.kube/config | grep -v "certificate-data\|key-data"
+          else
+            echo "Kubeconfig does not exist"
+          fi
           
       # Add these debug steps
       - name: Debug kubectl configuration
