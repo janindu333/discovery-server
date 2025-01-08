@@ -94,21 +94,29 @@ jobs:
           docker push janindu3/discovery-server:${{ github.sha }}
           docker push janindu3/discovery-server:latest
 
+      # Step: Set up kubectl
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        
       # Step: Configure kubectl
       - name: Configure kubectl
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
-
-      - name: Test Kubernetes Connection
-        run: kubectl cluster-info
+          
+      # Add these debug steps
+      - name: Debug kubectl configuration
+        run: |
+          echo "Current kubectl context:"
+          kubectl config current-context
+          echo "Available contexts:"
+          kubectl config get-contexts
+          echo "Cluster info:"
+          kubectl cluster-info
           
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yaml
-          
-      - name: Verify Deployment
-        run: |
-          kubectl get pods
-          kubectl get services
+          kubectl apply -f k8s/service.yaml
+          kubectl rollout status deployment/discovery-server -n default
